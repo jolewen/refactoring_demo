@@ -11,7 +11,6 @@ def generate_prime_tuples(input_number: int) -> list[tuple[int, int]]:
     :param input_number: integer to be split into two primes.
     :return: A list of tuples containing two prime numbers as integers each.
     """
-    input_number = handle_odd_number_input(input_number)
     list_of_primes = []
     i = SMALLEST_PRIME
     #  get the first prime number
@@ -31,7 +30,7 @@ def check_is_prime(n: int) -> bool:
 
     :param n: integer to be check whether it is a prime number
     """
-    if n <= 2:
+    if n < 2:
         return False
     for divisor in range(2, n):
         if n % divisor == 0:
@@ -39,17 +38,21 @@ def check_is_prime(n: int) -> bool:
     return True
 
 
-def handle_odd_number_input(number: int) -> int:
-    """Catch odd numbers from the input,
+def handle_number_input(number: int) -> int:
+    """Catch odd numbers and those smaller than 3 from the input,
     since they are not covered by the Goldbach conjecture.
-    Handles recursive calling for input in case of odd numbers.
+    Handles recursive calling for input.
 
     :param number: integer to be checked whether even or odd
     :return: an even integer
     """
-    if number % 2 == 1:
-        number = get_user_number_input("Your number is an ODD number."
-                                       "\nPlease enter an EVEN number:")
+    while number in (0, 2) or number % 2 == 1:
+        while number in (0, 2):
+            number = get_user_number_input(f"Your number is {number}, thus cannot be made up of two primes"
+                                           f"\nPlease enter an number larger than 3:")
+        while number % 2 == 1:
+            number = get_user_number_input("Your number is an ODD number."
+                                           "\nPlease enter an EVEN number:")
     return number
 
 
@@ -70,6 +73,7 @@ def get_user_number_input(prompt: str) -> int:
 
 def main():
     input_number = get_user_number_input("Enter an integer:")
+    input_number = handle_number_input(input_number)
     list_of_prime_tuples = generate_prime_tuples(input_number)
     for i, j in list_of_prime_tuples:
         print(f"The number {input_number} equals to the sum of {i} and {j}")
