@@ -54,7 +54,7 @@ def get_user_number_input(prompt):
         input_number = int(input_number)
     else:
         print(f"You entered '{input_number}'. That's not a positive integer.")
-        get_user_number_input(prompt)
+        input_number = get_user_number_input(prompt)
     return input_number
 
 
